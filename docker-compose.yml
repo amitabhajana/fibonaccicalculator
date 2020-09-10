@@ -12,7 +12,9 @@ services:
         ports: 
             - '4000:80'
     server1:
-        image: 'react/server1'
+        build: 
+            dockerfile: Dockerfile.dev
+            context: ./server
         volumes: 
             - /app/node_modules
             - ./server:/app
