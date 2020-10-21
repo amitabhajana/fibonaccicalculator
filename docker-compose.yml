@@ -5,6 +5,9 @@ services:
     redis-server:
         image: 'redis:latest'
     nginx1:
+        depends_on:
+            - server1
+            - client
         restart: always
         build: 
             dockerfile: Dockerfile.dev
@@ -26,6 +29,7 @@ services:
             - PGDATABASE=postgres
             - PGPASSWORD=POSTGRES_PASSWORD
             - PGPORT=5432
+            - CHOKIDAR_USEPOLLING=true
     client:
         build: 
             dockerfile: Dockerfile.dev
@@ -33,6 +37,8 @@ services:
         volumes: 
             - /app/node_modules
             - ./client:/app
+        stdin_open: true
+        tty: true
     worker:
         build: 
             dockerfile: Dockerfile.dev
